@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "bombtracker",
+	"version": "${version}",
+	"name": "bombtracker",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/bombtracker/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.amengdev.bombtracker.Bombtracker"
+		],
+		"client": [
+			"io.github.amengdev.bombtracker.client.BombtrackerClient"
+		]
+	},
+	"mixins": [
+		"bombtracker.mixins.json",
+		{
+			"config": "bombtracker.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
