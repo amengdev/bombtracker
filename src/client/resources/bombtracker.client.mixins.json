@@ -3,7 +3,7 @@
 	"package": "io.github.amengdev.bombtracker.client.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ExampleClientMixin"
+		"ChatHudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
