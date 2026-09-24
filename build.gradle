@@ -44,6 +44,11 @@ dependencies {
 
 	// devAuth
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.2")
+
+	//jUnit
+	testImplementation platform("org.junit:junit-bom:5.11.4")
+	testImplementation "org.junit.jupiter:junit-jupiter"
+	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 }
 
 processResources {
@@ -93,4 +98,8 @@ publishing {
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
 	}
+}
+
+test {
+	useJUnitPlatform()
 }

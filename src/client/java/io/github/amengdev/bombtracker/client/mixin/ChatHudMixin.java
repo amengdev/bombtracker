@@ -1,5 +1,8 @@
 package io.github.amengdev.bombtracker.client.mixin;
 
+
+// old chat logging with mixin
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.client.gui.components.ChatComponent;
 
