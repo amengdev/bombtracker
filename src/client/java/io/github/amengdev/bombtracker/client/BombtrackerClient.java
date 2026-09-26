@@ -8,13 +8,23 @@ import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 public class BombtrackerClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
+		String url = BombtrackerConfig.loadWebHookUrl();
+		DiscordWebhook webhook = (url != null) ? new DiscordWebhook(url) : null;
+
 		ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
 			if (overlay) return;
 
 			BombParser.Bomb bomb = BombParser.parse(message.getString());
-			if (bomb != null) {
-				Bombtracker.LOGGER.info("BOMB FOUND1!!!11: {} on {} by {}",
-						bomb.type(), bomb.server(), bomb.player());
+			if (bomb == null) return;
+
+			Bombtracker.LOGGER.info("BOMB FOUND1!!!11: {} on {} by {}",
+					bomb.type(), bomb.server(), bomb.player());
+
+			if (webhook != null) {
+				webhook.send(String.format(" %s bomb thrown on %s by %s",
+						bomb.type(),
+						bomb.server(),
+						bomb.player()));
 			}
 		});
 	}
