@@ -10,7 +10,6 @@ public class BombtrackerClient implements ClientModInitializer {
 	public void onInitializeClient() {
 
 		BombtrackerConfig config = BombtrackerConfig.load();
-		DiscordWebhook webhook = config.webhookUrl() != null ? new DiscordWebhook(config.webhookUrl()) : null;
 		BackendClient backend = config.backendUrl() != null ? new BackendClient(config.backendUrl()) : null;
 
 
@@ -27,12 +26,6 @@ public class BombtrackerClient implements ClientModInitializer {
 				backend.report(bomb);
 			}
 
-			if (webhook != null) {
-				webhook.send(String.format(" %s bomb thrown on %s by %s",
-						bomb.type(),
-						bomb.server(),
-						bomb.player()));
-			}
 		});
 	}
 }
