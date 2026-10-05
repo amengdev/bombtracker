@@ -8,14 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-public record BombtrackerConfig(String webhookUrl, String backendUrl) {
+public record BombtrackerConfig(String backendUrl) {
     private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("bombtracker.properties");
 
     public static BombtrackerConfig load() {
         Properties properties = new Properties();
         try {
             if (!Files.exists(PATH)) {
-                properties.setProperty("webhook_url", "");
                 properties.setProperty("backend_url", "");
                 try (var out = Files.newOutputStream(PATH)) {
                     properties.store(out, "Bombtracker config");
@@ -29,7 +28,7 @@ public record BombtrackerConfig(String webhookUrl, String backendUrl) {
         } catch (IOException e) {
             Bombtracker.LOGGER.error("Error loading Bombtracker config", e);
         }
-        return new BombtrackerConfig(clean(properties.getProperty("webhook_url")), clean(properties.getProperty("backend_url")));
+        return new BombtrackerConfig(clean(properties.getProperty("backend_url")));
     }
 
     private static String clean(String value) {
