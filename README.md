@@ -22,8 +22,6 @@ bombtracker (mod)  ──POST /bombs──▶  bombtracker-backend  ◀──GET
 - Listens to system chat messages through the Fabric API (`ClientReceiveMessageEvents.GAME`)
 - Parses bomb announcements into player, bomb type, and server
 - Reports each bomb to the backend over HTTP, asynchronously so the game never stalls
-- Holds no secrets: the only setting is the backend URL
-- Purely passive: it only reads chat and never sends input or automates the player
 
 ## Setup
 
