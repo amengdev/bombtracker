@@ -8,26 +8,33 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-public class BombtrackerConfig {
+public record BombtrackerConfig(String webhookUrl, String backendUrl) {
     private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("bombtracker.properties");
 
-    public static String loadWebHookUrl(){
+    public static BombtrackerConfig load() {
         Properties properties = new Properties();
         try {
             if (!Files.exists(PATH)) {
                 properties.setProperty("webhook_url", "");
-                try (var out = Files.newOutputStream(PATH)){
-                    properties.store(out, "Bomb Tracker config");
+                properties.setProperty("backend_url", "");
+                try (var out = Files.newOutputStream(PATH)) {
+                    properties.store(out, "Bombtracker config");
                 }
-                Bombtracker.LOGGER.warn("Created {}. Add your webhookl URL there", PATH);
-                return null;
+                Bombtracker.LOGGER.warn("Created {} Fill in your settings there.", PATH);
+            } else {
+                try (var in = Files.newInputStream(PATH)) {
+                    properties.load(in);
+                }
             }
-            try (var in = Files.newInputStream(PATH)){
-                properties.load(in);
-            }
-        }  catch (IOException e) { Bombtracker.LOGGER.error("Couldn't read config", e); return null;}
-        String url = properties.getProperty("webhook_url", "").trim();
-        return url.isEmpty() ? null : url;
+        } catch (IOException e) {
+            Bombtracker.LOGGER.error("Error loading Bombtracker config", e);
+        }
+        return new BombtrackerConfig(clean(properties.getProperty("webhook_url")), clean(properties.getProperty("backend_url")));
+    }
+
+    private static String clean(String value) {
+        if (value == null || value.isBlank()) return null;
+        return value.trim();
     }
 
 }
